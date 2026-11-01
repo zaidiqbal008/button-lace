@@ -18,9 +18,9 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-surface/95 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2 sm:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.png" alt="Stitch Bazaar" width={160} height={48} className="h-10 w-auto" priority />
+          <Image src="/logo.png" alt="Stitch Bazaar" width={1701} height={773} className="h-10 w-auto sm:h-14" priority />
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex">
