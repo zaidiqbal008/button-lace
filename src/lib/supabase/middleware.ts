@@ -29,12 +29,26 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (request.nextUrl.pathname.startsWith("/admin") &&
-      request.nextUrl.pathname !== "/admin/login" &&
-      !user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/admin/login";
-    return NextResponse.redirect(url);
+  const { pathname } = request.nextUrl;
+
+  if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
+    if (!user) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/admin/login";
+      return NextResponse.redirect(url);
+    }
+
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (profile?.role !== "admin") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/account";
+      return NextResponse.redirect(url);
+    }
   }
 
   return supabaseResponse;

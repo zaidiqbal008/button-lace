@@ -21,10 +21,14 @@ export async function placeOrder(input: PlaceOrderInput) {
 
   const supabase = await createClient();
   const total = input.items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data: order, error: orderError } = await supabase
     .from("orders")
     .insert({
+      user_id: user?.id ?? null,
       customer_name: input.customerName,
       customer_email: input.customerEmail,
       customer_phone: input.customerPhone,
