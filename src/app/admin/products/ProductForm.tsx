@@ -1,13 +1,16 @@
+import Image from "next/image";
 import type { Category, Product } from "@/lib/types";
 
 export function ProductForm({
   categories,
   product,
   action,
+  defaultCategoryId,
 }: {
   categories: Category[];
   product?: Product;
   action: (formData: FormData) => void;
+  defaultCategoryId?: string;
 }) {
   return (
     <form action={action} className="max-w-xl space-y-4">
@@ -17,7 +20,7 @@ export function ProductForm({
         <span className="font-medium text-foreground/80">Category</span>
         <select
           name="category_id"
-          defaultValue={product?.category_id ?? ""}
+          defaultValue={product?.category_id ?? defaultCategoryId ?? ""}
           className="mt-1 w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm outline-none focus:border-primary"
         >
           <option value="">No category</option>
@@ -50,7 +53,34 @@ export function ProductForm({
         />
       </div>
 
-      <Field name="image_url" label="Image URL" defaultValue={product?.image_url ?? ""} />
+      <div className="space-y-2">
+        <label className="block text-sm">
+          <span className="font-medium text-foreground/80">Product photo</span>
+          <input
+            name="image"
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/avif"
+            className="mt-1 w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm file:mr-3 file:rounded-full file:border-0 file:bg-primary file:px-4 file:py-1.5 file:text-sm file:font-semibold file:text-white"
+          />
+        </label>
+        <p className="text-xs text-foreground/60">JPEG, PNG, WebP or AVIF, up to 5 MB.</p>
+        {product?.image_url && (
+          <div className="flex items-center gap-3 pt-1">
+            <Image
+              src={product.image_url}
+              alt={product.name}
+              width={56}
+              height={56}
+              className="h-14 w-14 rounded-lg border border-border object-cover"
+            />
+            <span className="text-xs text-foreground/60">
+              Current photo — choose a file only if you want to replace it.
+            </span>
+          </div>
+        )}
+        <input type="hidden" name="current_image_url" value={product?.image_url ?? ""} />
+      </div>
+
       <Field name="stock" label="Stock" type="number" defaultValue={product?.stock ?? 0} required />
 
       <div className="flex gap-6">

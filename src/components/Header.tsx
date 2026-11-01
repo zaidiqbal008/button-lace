@@ -35,7 +35,25 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/account"
+            aria-label="Your account"
+            title="Your account"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface-muted text-foreground/70 transition hover:border-primary-light hover:text-primary-dark"
+          >
+            <svg
+              aria-hidden
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              className="h-[18px] w-[18px]"
+            >
+              <circle cx="12" cy="8" r="3.5" />
+              <path d="M4.5 20a7.5 7.5 0 0 1 15 0" />
+            </svg>
+          </Link>
           <Link
             href="/cart"
             className="relative inline-flex items-center gap-2 rounded-full border border-border bg-surface-muted px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary-light"

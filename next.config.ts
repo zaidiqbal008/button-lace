@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: "https", hostname: "**" }],
   },
+  async redirects() {
+    return [{ source: "/signin", destination: "/login", permanent: false }];
+  },
   turbopack: {
     root: __dirname,
     rules: {
