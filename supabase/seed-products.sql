@@ -1,7 +1,15 @@
 -- Temporary sample products.
 -- Images are free-licence Pexels photos stored in public/products/.
--- Run in the Supabase SQL editor after schema.sql.
+-- Run in the Supabase SQL editor after schema.sql. Safe to re-run.
 -- Delete these rows from /admin once real products are added.
+
+-- Clear any earlier run of this seed (older rows pointed at renamed files).
+delete from products where slug in (
+  'organza-scallop-lace', 'pearl-daisy-lace-trim', 'net-chantilly-lace',
+  'chiffon-block-dupatta', 'organza-sand-dupatta', 'net-cocoa-dupatta',
+  'sequin-applique-net-lace', 'pearl-accent-lace-trim', 'black-chantilly-lace',
+  'printed-cotton-dupatta', 'embroidered-net-dupatta', 'pleated-organza-dupatta'
+);
 
 insert into products (category_id, name, slug, description, price, compare_at_price, image_url, stock, is_dyeable)
 values
