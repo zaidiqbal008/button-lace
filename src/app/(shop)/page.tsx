@@ -8,6 +8,10 @@ export default async function HomePage() {
     getCategories(),
   ]);
 
+  const visibleCategories = categories.filter(
+    (category) => category.slug !== "dupattas",
+  );
+
   return (
     <div>
       <section className="border-b border-border bg-gradient-to-b from-surface-muted to-background">
@@ -20,7 +24,7 @@ export default async function HomePage() {
             <br className="hidden sm:block" /> made for your own creations
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-foreground/70">
-            Dyeable laces, ready dupattas, and finishing buttons for tailors,
+            Dyeable laces, ready dupattas, and appliqué motifs for tailors,
             designers, and anyone customizing their own outfits.
           </p>
           <div className="mt-8 flex justify-center gap-3">
@@ -34,15 +38,15 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {categories.length > 0 && (
+      {visibleCategories.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
           <h2 className="font-display text-2xl text-foreground">Shop by category</h2>
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {categories.map((category) => (
+          <div className="mt-6 flex flex-wrap justify-center gap-4">
+            {visibleCategories.map((category) => (
               <Link
                 key={category.id}
                 href={`/categories/${category.slug}`}
-                className="group rounded-2xl border border-border bg-surface p-6 transition hover:border-primary-light hover:shadow-md"
+                className="group w-full max-w-sm flex-1 basis-72 rounded-2xl border border-border bg-surface p-6 transition hover:border-primary-light hover:shadow-md"
               >
                 <h3 className="font-display text-xl text-primary-dark">
                   {category.name}

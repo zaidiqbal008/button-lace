@@ -57,35 +57,44 @@ alter table orders enable row level security;
 alter table order_items enable row level security;
 
 -- Anyone can browse the catalog.
+drop policy if exists "Public can read categories" on categories;
 create policy "Public can read categories" on categories
   for select using (true);
 
+drop policy if exists "Public can read active products" on products;
 create policy "Public can read active products" on products
   for select using (is_active = true);
 
 -- Only signed-in admins (any authenticated user in this single-admin setup)
 -- can manage the catalog.
+drop policy if exists "Admins can manage categories" on categories;
 create policy "Admins can manage categories" on categories
   for all using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
 
+drop policy if exists "Admins can manage products" on products;
 create policy "Admins can manage products" on products
   for all using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
 
 -- Customers (anonymous) can place orders, but cannot read them back.
+drop policy if exists "Anyone can create an order" on orders;
 create policy "Anyone can create an order" on orders
   for insert with check (true);
 
+drop policy if exists "Admins can read orders" on orders;
 create policy "Admins can read orders" on orders
   for select using (auth.role() = 'authenticated');
 
+drop policy if exists "Admins can update orders" on orders;
 create policy "Admins can update orders" on orders
   for update using (auth.role() = 'authenticated');
 
+drop policy if exists "Anyone can create order items" on order_items;
 create policy "Anyone can create order items" on order_items
   for insert with check (true);
 
+drop policy if exists "Admins can read order items" on order_items;
 create policy "Admins can read order items" on order_items
   for select using (auth.role() = 'authenticated');
 
@@ -93,6 +102,5 @@ create policy "Admins can read order items" on order_items
 
 insert into categories (name, slug, description) values
   ('Laces', 'laces', 'Dyeable and ready-made laces in organza, net, and pearl trims.'),
-  ('Dupattas', 'dupattas', 'Plain and embellished dupattas ready for customization.'),
-  ('Buttons & Trims', 'buttons-trims', 'Decorative buttons and finishing trims for tailoring.')
+  ('Motifs', 'motifs', 'Appliqué motifs and decorative patches for embellishment.')
 on conflict (slug) do nothing;
